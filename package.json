@@ -1,0 +1,36 @@
+{
+  "name": "gulp-html-to-json",
+  "version": "0.1.0",
+  "description": "Converts html contents to json object",
+  "homepage": "https://github.com/johnturingan/gulp-html-to-json",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:johnturingan/gulp-html-to-json.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "keywords": [
+    "gulpplugin","html to json"
+  ],
+  "author": {
+    "name": "John Turingan"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "~3.8.8",
+    "jasmine": "~2.0"
+  },
+  "dependencies": {
+    "gulp-util": "~2.2.10",
+    "event-stream": "~3.1.0",
+    "gulp-util": "~3.0.0",
+    "through2": "^0.6.0"
+  },
+  "readme": "Converts html contents to json object",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/johnturingan/gulp-html-to-json/issues"
+  }
+}
