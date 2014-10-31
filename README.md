@@ -119,4 +119,4 @@ Third sample will look into all hmtl content inside the directory and output it 
 
 ----
 **[MIT](LICENSE) LICENSE** <br>
-copyright &copy; 2014 sparkart group, inc.
+copyright &copy; 2014 Scripts and Pixels.
