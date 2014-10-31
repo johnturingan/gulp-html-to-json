@@ -15,7 +15,8 @@
     "gulpplugin","html to json"
   ],
   "author": {
-    "name": "John Turingan"
+    "name": "John Turingan",
+    "url" : "http://scriptsandpixels.com"
   },
   "license": "MIT",
   "devDependencies": {
@@ -26,7 +27,6 @@
     "gulp-util": "~2.2.10",
     "event-stream": "~3.1.0",
     "gulp-util": "~3.0.0",
-    "through2": "^0.6.0",
     "front-matter": "^0.2.0",
     "marked": "^0.3.0",
     "glob": "^4.0.0"
