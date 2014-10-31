@@ -34,9 +34,16 @@ gulp.task('markdown', function(){
 
 ```
 
+## Options
+
 As of now, there are two options that you can use:
--- filename : filename of the json file
--- useAsVariable : default false. If true, it will output your file as a javascript variable. Otherwise, json file
+
+* `filename` (optional)
+    * filename of the json file
+* `useAsVariable` (optional)
+    * default false
+    * If set to true, it will output your file as a javascript variable. Otherwise, json file
+
 
 Sample outpus if useAsVariable = false;
 
@@ -110,3 +117,6 @@ Third sample will look into all hmtl content inside the directory and output it 
 }
 ```
 
+----
+**[MIT](LICENSE) LICENSE** <br>
+copyright &copy; 2014 sparkart group, inc.
