@@ -5,10 +5,7 @@ var fs      = require("fs"),
     gutil   = require("gulp-util"),
     marked  = require('marked'),
     glob    = require('glob'),
-
     frontmatter = require('front-matter');
-
-
 
 _DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\*\/-]+\.html?\s*))$/gm;
 _IS_HIDDEN_REGEX = /(^|.\/)\.+[^\/\.]/g;
@@ -81,7 +78,7 @@ function htmltojsonController (fileContents, filePath, output) {
 
 module.exports = function(params) {
     var params = params || {};
-    function include(file, callback) {
+    function htmtojson(file, callback) {
 
         if (file.isNull()) {
             return callback(null, file);
@@ -100,7 +97,6 @@ module.exports = function(params) {
             params.filename || (params.filename = indName(file.path, "\\"));
             params.useAsVariable || (params.useAsVariable = false);
 
-            //file.path = gutil.replaceExtension(file.path, '.json');
             file.path = replaceFilename(file.path, params.filename)
 
             var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : ""
@@ -110,7 +106,5 @@ module.exports = function(params) {
         callback(null, file);
     }
 
-
-
-    return es.map(include)
+    return es.map(htmtojson)
 }
