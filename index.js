@@ -38,10 +38,14 @@ function indName (dirname, splitter) {
     return nArr.pop();
 }
 
-function replaceFilename (path, fname) {
+function replaceFilename (path, fname, useAsVariable) {
+
+    var uvar = useAsVariable || false;
+
     var filename = path.replace(/^.*(\\|\/|\:)/, '');
     var nFname = path.replace(filename, fname);
-     return gutil.replaceExtension(nFname, '.json');
+    var ext = (uvar) ? ".js" : '.json';
+     return gutil.replaceExtension(nFname,  ext);
 }
 
 
