@@ -1,7 +1,7 @@
 {
   "name": "gulp-html-to-json",
-  "version": "0.1.0",
-  "description": "Converts html contents to json object",
+  "version": "0.1.1",
+  "description": "Converts html contents to json object. Compile html files and wrap it all in a single json file",
   "homepage": "https://github.com/johnturingan/gulp-html-to-json",
   "repository": {
     "type": "git",
