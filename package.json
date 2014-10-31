@@ -28,7 +28,8 @@
     "gulp-util": "~3.0.0",
     "through2": "^0.6.0",
     "front-matter": "^0.2.0",
-    "marked": "^0.3.0"
+    "marked": "^0.3.0",
+    "glob": "^4.0.0"
   },
   "readme": "Converts html contents to json object",
   "readmeFilename": "README.md",

@@ -3,51 +3,20 @@ var fs      = require("fs"),
     path    = require("path"),
     es      = require("event-stream"),
     gutil   = require("gulp-util"),
-    marked = require('marked'),
+    marked  = require('marked'),
+    glob    = require('glob'),
+
     frontmatter = require('front-matter');
 
 
-DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\/-]+\.html?\s*))$/gm;
-IS_HIDDEN_REGEX = /(^|.\/)\.+[^\/\.]/g;
+
+_DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\*\/-]+\.html?\s*))$/gm;
+_IS_HIDDEN_REGEX = /(^|.\/)\.+[^\/\.]/g;
 
 
-function getFiles(dir, cb){
-    var files = fs.readdirSync(dir);
-
-    for(var i in files){
-        if (!files.hasOwnProperty(i)) continue;
-        var name = dir+'/'+files[i];
-    var isHidden = IS_HIDDEN_REGEX.test(name);
-    if (!isHidden) {
-      if (fs.statSync(name).isDirectory()){
-        getFiles(name, cb);
-      } else {
-        cb(name);
-      }
-    }
-    }
-}
-
-
-function matchExtension(extension, params) {
-    if (params.extensions) {
-        if (Array.isArray(params.extensions)) {
-            if (params.extensions.indexOf(extension) > -1) return true;
-        } else if (typeof params.extensions == "string") {
-            if (params.extensions == extension) return true;
-        } else {
-            throw new gutil.PluginError('gulp-html-to-json', 'extensions param only allows Array or String');
-        }
-    }else{
-        return true;
-    }
-    return false;
-}
-
-function parse(file){
+function _parse(file){
 
     if (fs.existsSync(file)) {
-
         var bufferContents = fs.readFileSync(file);
         parsed = frontmatter(bufferContents.toString().replace(/\s+/g, ' '));
 
@@ -76,6 +45,35 @@ function replaceFilename (path, fname) {
 }
 
 
+function htmltojsonController (fileContents, filePath, output) {
+
+    while (matches = _DIRECTIVE_REGEX.exec(fileContents)) {
+        var relPath     = path.dirname(filePath),
+            fullPath    = path.join(relPath,  matches[3].replace(/['"]/g, '')).trim(),
+            jsonVar     = matches[2],
+            extension   = matches[3].split('.').pop();
+
+        try {
+            var files = glob.sync(fullPath, {mark:true});
+
+            files.forEach(function(value, index){
+
+                var _inc = _parse(value);
+
+                if (_inc.length > 0) {
+                    var ind = (jsonVar.trim() == '*') ? indName(value) : jsonVar
+                    output[ind] = _inc;
+                }
+            })
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+}
+
+
 
 module.exports = function(params) {
     var params = params || {};
@@ -91,32 +89,12 @@ module.exports = function(params) {
 
         if (file.isBuffer()) {
 
-            var text = String(file.contents);
-            var newText = text;
-            var matches;
             var outputJson = {};
 
-            while (matches = DIRECTIVE_REGEX.exec(text)) {
-                var match       = matches[1],
-                    relPath     = path.dirname(file.path ),
-                    fullPath    = path.join(relPath,  matches[3].replace(/['"]/g, '')).trim(),
-                    jsonVar     = matches[2],
-                    body        = "",
-                    extension   = matches[3].split('.').pop();
-
-                var _inc = parse(fullPath);
-
-                if (_inc.length > 0) {
-                    var ind = (jsonVar.trim() == '*') ? indName(matches[3]) : jsonVar
-
-                    outputJson[ind] = _inc;
-                }
-            }
+            htmltojsonController(String(file.contents), file.path, outputJson);
 
             params.filename || (params.filename = indName(file.path, "\\"));
             params.useAsVariable || (params.useAsVariable = false);
-
-
 
             //file.path = gutil.replaceExtension(file.path, '.json');
             file.path = replaceFilename(file.path, params.filename)
