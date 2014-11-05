@@ -25,12 +25,17 @@ function _parse(file){
 
 }
 
-function indName (dirname, splitter) {
+function indName (dirname) {
 
-    splitter = splitter || '/';
     var n = dirname.split('.');
-    var nArr = n.pop();
-    nArr = n.pop().split(splitter);
+    n.pop();
+    nLast = n.pop();
+    var nArr = []
+    if (nLast.indexOf('/') >= 0) {
+        nArr = nLast.split('/')
+    } else {
+        nArr = nLast.split('\\')
+    }
 
     return nArr.pop();
 }
@@ -74,6 +79,23 @@ function htmltojsonController (fileContents, filePath, output) {
     }
 }
 
+function angularTemplate (params, json) {
+    var prefix = (params.prefix != "") ? params.prefix + "." : "";
+    var tpl = 'angular.module("'+ prefix +  params.filename +'",["ng"]).run(["$templateCache",';
+    tpl += 'function($templateCache) {';
+
+    for (var key in json) {
+        if (json.hasOwnProperty(key)) {
+            tpl += '$templateCache.put("'+ key +'",';
+            tpl += JSON.stringify(json[key])
+            tpl += ');'
+        }
+    }
+
+    tpl += '}])';
+
+    return tpl;
+}
 
 
 module.exports = function(params) {
@@ -94,13 +116,22 @@ module.exports = function(params) {
 
             htmltojsonController(String(file.contents), file.path, outputJson);
 
-            params.filename || (params.filename = indName(file.path, "\\"));
+            params.filename || (params.filename = indName(file.path));
+            params.prefix || (params.prefix = "");
             params.useAsVariable || (params.useAsVariable = false);
+            params.isAngularTemplate || (params.isAngularTemplate = false);
 
-            file.path = replaceFilename(file.path, params.filename)
+            if(params.isAngularTemplate) {
+                var output = angularTemplate(params, outputJson);
+                file.path = replaceFilename(file.path, params.filename, params.useAsVariable)
+                file.contents = new Buffer(output);
 
-            var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : ""
-            file.contents = new Buffer(exVars + JSON.stringify(outputJson));
+            } else {
+                file.path = replaceFilename(file.path, params.filename, params.useAsVariable)
+
+                var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : ""
+                file.contents = new Buffer(exVars + JSON.stringify(outputJson));
+            }
         }
 
         callback(null, file);

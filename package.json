@@ -1,6 +1,6 @@
 {
   "name": "gulp-html-to-json",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Converts html contents to json object. Compile html files and wrap it all in a single json file",
   "homepage": "https://github.com/johnturingan/gulp-html-to-json",
   "repository": {
@@ -12,7 +12,7 @@
     "test": "jasmine"
   },
   "keywords": [
-    "gulpplugin","html to json"
+    "gulpplugin","gulp html to json", "angular", "templateCache", "group files"
   ],
   "author": {
     "name": "John Turingan",

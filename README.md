@@ -43,6 +43,11 @@ As of now, there are two options that you can use:
 * `useAsVariable` (optional)
     * default false
     * If set to true, it will output your file as a javascript variable. Otherwise, json file
+* `isAngularTemplate` (optional)
+    * default false
+    * If set to true, it will output your file as an angular template cache.
+* `prefix` (optional)
+    * set the prefix on your angular module name
 
 
 Sample outpus if useAsVariable = false;
@@ -56,7 +61,7 @@ Sample outpus if useAsVariable = false;
 output file is filename.json
 
 
-Sample outpus if useAsVariable = true;
+Sample output if useAsVariable = true;
 
 ```javascript
 var filename = {
@@ -65,6 +70,27 @@ var filename = {
 
 ```
 output file is filaname.js
+
+
+Sample output if isAngularTemplate = true;
+
+```javascript
+
+    angular.module("prefix.filename").run(['$templateCache',
+      function($templateCache) {
+        $templateCache.put("key.name",
+            // template1.html content (escaped)
+        );
+        $templateCache.put("key2.name",
+            // template2.html content (escaped)
+        );
+        // etc.
+      }
+    ]);
+
+```
+output file is filaname.js
+
 
 ## Usage
 
@@ -116,6 +142,7 @@ Third sample will look into all hmtl content inside the directory and output it 
     "file2" : "<div>your html content 2</div>"
 }
 ```
+
 
 ----
 **[MIT](LICENSE) LICENSE** <br>
