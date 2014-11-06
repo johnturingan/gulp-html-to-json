@@ -1,7 +1,7 @@
 {
   "name": "gulp-html-to-json",
-  "version": "0.1.2",
-  "description": "Converts html contents to json object. Compile html files and wrap it all in a single json file",
+  "version": "0.1.3",
+  "description": "Automatically generate angularjs file for templateCache. Converts html contents to json object. Compile html files and wrap it all in a single json file. ",
   "homepage": "https://github.com/johnturingan/gulp-html-to-json",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "test": "jasmine"
   },
   "keywords": [
-    "gulpplugin","gulp html to json", "angular", "templateCache", "group files"
+    "gulpplugin","gulp html to json", "angularjs", "json","templateCache", "group files", "html to templateCache"
   ],
   "author": {
     "name": "John Turingan",
@@ -31,7 +31,6 @@
     "marked": "^0.3.0",
     "glob": "^4.0.0"
   },
-  "readme": "Converts html contents to json object",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/johnturingan/gulp-html-to-json/issues"

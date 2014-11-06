@@ -1,8 +1,14 @@
 # [gulp](http://gulpjs.com)-html-to-json
 
 >Makes inclusion of files easy and fast.
+Generates angular module for templateCache.
 Compile html files and wrap it all in a single json file.
 Enables you to include only the files you want.
+
+>Can be useful if you want to generate various groups of templates and
+include only the html files you want for that specific group. Can be use in backbone and angular
+
+
 
 Install :traffic_light:
 -------

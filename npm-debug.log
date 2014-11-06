@@ -1,81 +1,105 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'publish' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'adduser' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.33
 4 verbose node symlink /usr/bin/node
-5 verbose publish [ '.' ]
-6 verbose cache add [ '.', null ]
-7 verbose cache add name=undefined spec="." args=[".",null]
-8 verbose parsed url { protocol: null,
-8 verbose parsed url   slashes: null,
-8 verbose parsed url   auth: null,
-8 verbose parsed url   host: null,
-8 verbose parsed url   port: null,
-8 verbose parsed url   hostname: null,
-8 verbose parsed url   hash: null,
-8 verbose parsed url   search: null,
-8 verbose parsed url   query: null,
-8 verbose parsed url   pathname: '.',
-8 verbose parsed url   path: '.',
-8 verbose parsed url   href: '.' }
-9 silly lockFile 3a52ce78- .
-10 verbose lock . /home/codeninja/.npm/3a52ce78-.lock
-11 verbose tar pack [ '/home/codeninja/.npm/gulp-html-to-json/0.1.2/package.tgz',
-11 verbose tar pack   '.' ]
-12 verbose tarball /home/codeninja/.npm/gulp-html-to-json/0.1.2/package.tgz
-13 verbose folder .
-14 info prepublish gulp-html-to-json@0.1.2
-15 silly lockFile 1f1177db-tar tar://.
-16 verbose lock tar://. /home/codeninja/.npm/1f1177db-tar.lock
-17 silly lockFile c3f1b5cc-p-html-to-json-0-1-2-package-tgz tar:///home/codeninja/.npm/gulp-html-to-json/0.1.2/package.tgz
-18 verbose lock tar:///home/codeninja/.npm/gulp-html-to-json/0.1.2/package.tgz /home/codeninja/.npm/c3f1b5cc-p-html-to-json-0-1-2-package-tgz.lock
-19 silly lockFile 1f1177db-tar tar://.
-20 silly lockFile 1f1177db-tar tar://.
-21 silly lockFile c3f1b5cc-p-html-to-json-0-1-2-package-tgz tar:///home/codeninja/.npm/gulp-html-to-json/0.1.2/package.tgz
-22 silly lockFile c3f1b5cc-p-html-to-json-0-1-2-package-tgz tar:///home/codeninja/.npm/gulp-html-to-json/0.1.2/package.tgz
-23 silly lockFile d762fa93--gulp-html-to-json-0-1-2-package /home/codeninja/.npm/gulp-html-to-json/0.1.2/package
-24 verbose lock /home/codeninja/.npm/gulp-html-to-json/0.1.2/package /home/codeninja/.npm/d762fa93--gulp-html-to-json-0-1-2-package.lock
-25 silly lockFile d762fa93--gulp-html-to-json-0-1-2-package /home/codeninja/.npm/gulp-html-to-json/0.1.2/package
-26 silly lockFile d762fa93--gulp-html-to-json-0-1-2-package /home/codeninja/.npm/gulp-html-to-json/0.1.2/package
-27 silly lockFile 3a52ce78- .
-28 silly lockFile 3a52ce78- .
-29 silly publish { name: 'gulp-html-to-json',
-29 silly publish   version: '0.1.2',
-29 silly publish   description: 'Converts html contents to json object. Compile html files and wrap it all in a single json file',
-29 silly publish   homepage: 'https://github.com/johnturingan/gulp-html-to-json',
-29 silly publish   repository:
-29 silly publish    { type: 'git',
-29 silly publish      url: 'git@github.com:johnturingan/gulp-html-to-json.git' },
-29 silly publish   main: 'index.js',
-29 silly publish   scripts: { test: 'jasmine' },
-29 silly publish   keywords:
-29 silly publish    [ 'gulpplugin',
-29 silly publish      'gulp html to json',
-29 silly publish      'angular',
-29 silly publish      'templateCache',
-29 silly publish      'group files' ],
-29 silly publish   author: { name: 'John Turingan', url: 'http://scriptsandpixels.com' },
-29 silly publish   license: 'MIT',
-29 silly publish   devDependencies: { gulp: '~3.8.8', jasmine: '~2.0' },
-29 silly publish   dependencies:
-29 silly publish    { 'gulp-util': '~3.0.0',
-29 silly publish      'event-stream': '~3.1.0',
-29 silly publish      'front-matter': '^0.2.0',
-29 silly publish      marked: '^0.3.0',
-29 silly publish      glob: '^4.0.0' },
-29 silly publish   readme: 'Converts html contents to json object',
-29 silly publish   readmeFilename: 'README.md',
-29 silly publish   bugs: { url: 'https://github.com/johnturingan/gulp-html-to-json/issues' },
-29 silly publish   gitHead: '21ed6702a3de7ddf0d863035645455854d5857ab',
-29 silly publish   _id: 'gulp-html-to-json@0.1.2',
-29 silly publish   _shasum: '971d9522385eacd3a69d4c9759cd3d6c06804eb3',
-29 silly publish   _from: '.' }
-30 error need auth auth and email required for publishing
-30 error need auth You need to authorize this machine using `npm adduser`
-31 error System Linux 3.13.0-39-generic
-32 error command "/usr/bin/node" "/usr/bin/npm" "publish"
-33 error cwd /var/www/gulp-html-to-json
-34 error node -v v0.10.33
-35 error npm -v 1.4.28
-36 error code ENEEDAUTH
-37 verbose exit [ 1, true ]
+5 verbose adduser before first PUT { name: 'johnturingan',
+5 verbose adduser   password: 'XXXXX',
+5 verbose adduser   email: 'john.turingan@gmail.com',
+5 verbose adduser   _id: 'org.couchdb.user:johnturingan',
+5 verbose adduser   type: 'user',
+5 verbose adduser   roles: [],
+5 verbose adduser   date: '2014-11-05T03:09:56.518Z' }
+6 verbose request where is /-/user/org.couchdb.user:johnturingan
+7 verbose request registry https://registry.npmjs.org/
+8 verbose request id 403c401d7a4ab6e8
+9 verbose url raw /-/user/org.couchdb.user:johnturingan
+10 verbose url resolving [ 'https://registry.npmjs.org/',
+10 verbose url resolving   './-/user/org.couchdb.user:johnturingan' ]
+11 verbose url resolved https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan
+12 verbose request where is https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan
+13 info trying registry request attempt 1 at 11:09:56
+14 http PUT https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan
+15 http 409 https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan
+16 verbose headers { date: 'Wed, 05 Nov 2014 03:09:58 GMT',
+16 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+16 verbose headers   'content-type': 'application/json',
+16 verbose headers   'cache-control': 'max-age=60',
+16 verbose headers   'content-length': '58',
+16 verbose headers   'accept-ranges': 'bytes',
+16 verbose headers   via: '1.1 varnish',
+16 verbose headers   'x-served-by': 'cache-hk92-HKG',
+16 verbose headers   'x-cache': 'MISS',
+16 verbose headers   'x-cache-hits': '0',
+16 verbose headers   'x-timer': 'S1415156997.661490,VS0,VE715',
+16 verbose headers   'keep-alive': 'timeout=10, max=50',
+16 verbose headers   connection: 'Keep-Alive' }
+17 verbose adduser update existing user
+18 verbose request where is /-/user/org.couchdb.user:johnturingan?write=true
+19 verbose request registry https://registry.npmjs.org/
+20 verbose url raw /-/user/org.couchdb.user:johnturingan?write=true
+21 verbose url resolving [ 'https://registry.npmjs.org/',
+21 verbose url resolving   './-/user/org.couchdb.user:johnturingan?write=true' ]
+22 verbose url resolved https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan?write=true
+23 verbose request where is https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan?write=true
+24 info trying registry request attempt 1 at 11:09:57
+25 http GET https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan?write=true
+26 http 200 https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan?write=true
+27 verbose adduser userobj { name: 'johnturingan',
+27 verbose adduser   password: 'XXXXX',
+27 verbose adduser   email: 'john.turingan@gmail.com',
+27 verbose adduser   _id: 'org.couchdb.user:johnturingan',
+27 verbose adduser   type: 'user',
+27 verbose adduser   roles: [],
+27 verbose adduser   date: '2014-11-05T03:09:56.518Z' }
+28 verbose request where is /-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+29 verbose request registry https://registry.npmjs.org/
+30 verbose url raw /-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+31 verbose url resolving [ 'https://registry.npmjs.org/',
+31 verbose url resolving   './-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423' ]
+32 verbose url resolved https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+33 verbose request where is https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+34 info trying registry request attempt 1 at 11:09:58
+35 http PUT https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+36 http 401 https://registry.npmjs.org/-/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+37 verbose headers { date: 'Wed, 05 Nov 2014 03:10:00 GMT',
+37 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+37 verbose headers   'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=60',
+37 verbose headers   'content-length': '67',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   'x-served-by': 'cache-hk92-HKG',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1415156999.586283,VS0,VE666',
+37 verbose headers   'keep-alive': 'timeout=10, max=50',
+37 verbose headers   connection: 'Keep-Alive' }
+38 verbose adduser back [ [Error: unauthorized Name or password is incorrect.: -/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423],
+38 verbose adduser   { error: 'unauthorized',
+38 verbose adduser     reason: 'Name or password is incorrect.' },
+38 verbose adduser   '{"error":"unauthorized","reason":"Name or password is incorrect."}' ]
+39 warn adduser Incorrect username or password
+39 warn adduser You can reset your account by visiting:
+39 warn adduser
+39 warn adduser     https://npmjs.org/forgot
+40 error Error: unauthorized Name or password is incorrect.: -/user/org.couchdb.user:johnturingan/-rev/6-ced69b775560db7ad100ea7e46595423
+40 error     at RegClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:308:14)
+40 error     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:246:65)
+40 error     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:236:22)
+40 error     at Request.emit (events.js:98:17)
+40 error     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1142:14)
+40 error     at Request.emit (events.js:117:20)
+40 error     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1096:12)
+40 error     at IncomingMessage.emit (events.js:117:20)
+40 error     at _stream_readable.js:943:16
+40 error     at process._tickCallback (node.js:419:13)
+41 error If you need help, you may report this *entire* log,
+41 error including the npm and node versions, at:
+41 error     <http://github.com/npm/npm/issues>
+42 error System Linux 3.13.0-39-generic
+43 error command "/usr/bin/node" "/usr/bin/npm" "adduser"
+44 error cwd /var/www/gulp-html-to-json
+45 error node -v v0.10.33
+46 error npm -v 1.4.28
+47 verbose exit [ 1, true ]
