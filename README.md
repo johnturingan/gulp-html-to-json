@@ -34,6 +34,9 @@ gulp.task('markdown', function(){
         gulp.src('path/to/your/**/*.tpl')
             .pipe(htmltojson({
                 filename: "filenameyouwant"
+                , useAsVariable: true
+                , isAngularTemplate : true
+                , prefix : "yourprefix"
             }))
             .pipe(gulp.dest('.'))
 
@@ -75,7 +78,7 @@ var filename = {
 }
 
 ```
-output file is filaname.js
+output file is filename.js
 
 
 Sample output if isAngularTemplate = true;
@@ -85,17 +88,17 @@ Sample output if isAngularTemplate = true;
     angular.module("prefix.filename").run(['$templateCache',
       function($templateCache) {
         $templateCache.put("key.name",
-            // template1.html content (escaped)
+            // keyname.html content (escaped)
         );
         $templateCache.put("key2.name",
-            // template2.html content (escaped)
+            // keyname2.html content (escaped)
         );
         // etc.
       }
     ]);
 
 ```
-output file is filaname.js
+output file is filename.js
 
 
 ## Usage
