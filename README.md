@@ -28,12 +28,12 @@ In your gulpfile.js
 
 ```javascript
 var gulp = require('gulp');
-var htmltojson = require('html-to-json');
+var htmltojson = require('gulp-html-to-json');
 
 gulp.task('markdown', function(){
         gulp.src('path/to/your/**/*.tpl')
             .pipe(htmltojson({
-                filename: "filenameyouwant"
+                filename: "filenameyouwant" //without file extension
                 , useAsVariable: true
                 , isAngularTemplate : true
                 , prefix : "yourprefix"
