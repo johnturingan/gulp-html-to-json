@@ -116,7 +116,7 @@ module.exports = function(params) {
 
             htmltojsonController(String(file.contents), file.path, outputJson);
 
-            params.filename || (params.filename = indName(file.path));
+            params.filename = indName(file.path);
             params.prefix || (params.prefix = "");
             params.useAsVariable || (params.useAsVariable = false);
             params.isAngularTemplate || (params.isAngularTemplate = false);
