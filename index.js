@@ -130,7 +130,7 @@ module.exports = function(params) {
                 file.path = replaceFilename(file.path, params.filename, params.useAsVariable)
 
                 var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : ""
-                file.contents = new Buffer(exVars + JSON.stringify(outputJson));
+                file.contents = new Buffer(exVars + JSON.stringify(outputJson) + ";");
             }
         }
 
