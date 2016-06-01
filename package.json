@@ -1,6 +1,6 @@
 {
   "name": "gulp-html-to-json",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Automatically generate angularjs file for templateCache. Converts html contents to json object. Compile html files and wrap it all in a single json file. ",
   "homepage": "https://github.com/johnturingan/gulp-html-to-json",
   "repository": {
@@ -12,7 +12,7 @@
     "test": "jasmine"
   },
   "keywords": [
-    "gulpplugin","gulp html to json", "angularjs", "json","templateCache", "group files", "html to templateCache"
+    "gulpplugin","gulp html to json", "angularjs", "json","templateCache", "group files", "html to templateCache, template overrides"
   ],
   "author": {
     "name": "John Turingan",
@@ -24,7 +24,6 @@
     "jasmine": "~2.0"
   },
   "dependencies": {
-    "gulp-util": "~2.2.10",
     "event-stream": "~3.1.0",
     "gulp-util": "~3.0.0",
     "front-matter": "^0.2.0",

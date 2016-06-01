@@ -47,11 +47,11 @@ function replaceFilename (path, fname, useAsVariable) {
     var filename = path.replace(/^.*(\\|\/|\:)/, '');
     var nFname = path.replace(filename, fname);
     var ext = (uvar) ? ".js" : '.json';
-     return gutil.replaceExtension(nFname,  ext);
+    return gutil.replaceExtension(nFname,  ext);
 }
 
 
-function htmltojsonController (fileContents, filePath, output) {
+function htmltojsonController (fileContents, filePath, output, p) {
 
     while (matches = _DIRECTIVE_REGEX.exec(fileContents)) {
         var relPath     = path.dirname(filePath),
@@ -60,6 +60,16 @@ function htmltojsonController (fileContents, filePath, output) {
             extension   = matches[3].split('.').pop();
 
         try {
+
+            if (typeof p.baseDir != 'undefined' || typeof p.overrideDir != 'undefined') {
+
+                var flPath = fullPath.replace(p.baseDir, p.overrideDir);
+
+                if (fs.existsSync(flPath)) {
+                    fullPath = flPath;
+                }
+            }
+
             var files = glob.sync(fullPath, {mark:true});
 
             files.forEach(function(value, index){
@@ -114,7 +124,7 @@ module.exports = function(params) {
 
             var outputJson = {};
 
-            htmltojsonController(String(file.contents), file.path, outputJson);
+            htmltojsonController(String(file.contents), file.path, outputJson, params);
 
             params.filename = indName(file.path);
             params.prefix || (params.prefix = "");
@@ -130,7 +140,7 @@ module.exports = function(params) {
                 file.path = replaceFilename(file.path, params.filename, params.useAsVariable)
 
                 var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : ""
-                file.contents = new Buffer(exVars + JSON.stringify(outputJson) + ";");
+                file.contents = new Buffer(exVars + JSON.stringify(outputJson));
             }
         }
 
