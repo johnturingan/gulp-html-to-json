@@ -8,7 +8,13 @@ Enables you to include only the files you want.
 >Can be useful if you want to generate various groups of templates and
 include only the html files you want for that specific group. Can be use in backbone and angular
 
-
+> To run Demo:
+>
+```
+$ cd demo
+$ gulp compileD
+```
+Just make sure the you already install all node modules including Dev Dependencies
 
 Install :traffic_light:
 -------
@@ -165,15 +171,15 @@ In some cases you may want to override the template. You have a default template
 BaseDir Directory structure
 
 Base
-	template
-    	home.html
+    template
+        home.html
 
 
 OverrideDir Directory Structure
 
 Overrides
-	template
-    	home.html
+    template
+        home.html
 ```
 
 As you can see above, they have same directory structure inside the declared base and override directory. And the filename are the same. How it works? The script will check if the file exist in override directory then it will use that instead of that in the base directory.
@@ -181,4 +187,4 @@ As you can see above, they have same directory structure inside the declared bas
 
 ----
 **[MIT](LICENSE) LICENSE** <br>
-copyright &copy; 2014 Scripts and Pixels.
+copyright &copy; 2016 Scripts and Pixels.
