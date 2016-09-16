@@ -1,45 +1,75 @@
-var NAME = 'gulp-html-to-json';
+"use strict";
+
+
 var fs      = require("fs"),
     path    = require("path"),
     es      = require("event-stream"),
-    gutil   = require("gulp-util"),
+    gUtil   = require("gulp-util"),
     marked  = require('marked'),
     glob    = require('glob'),
-    frontmatter = require('front-matter');
+    frontMatter = require('front-matter'),
 
-_DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\*\/-]+\.html?\s*))$/gm;
-_IS_HIDDEN_REGEX = /(^|.\/)\.+[^\/\.]/g;
+    _DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\*\/-]+\.html?\s*))$/gm,
+    _IS_HIDDEN_REGEX = /(^|.\/)\.+[^\/\.]/g
+;
 
-
+/**
+ *
+ * @param file
+ * @returns {HTMLElement}
+ * @private
+ */
 function _parse(file){
 
     if (fs.existsSync(file)) {
-        var bufferContents = fs.readFileSync(file);
-        parsed = frontmatter(bufferContents.toString().replace(/\s+/g, ' '));
+        var bufferContents = fs.readFileSync(file),
+            parsed = frontMatter(bufferContents.toString().replace(/\s+/g, ' '));
 
         return parsed.body;
 
     } else {
-        throw new gutil.PluginError('gulp-html-to-json', 'File not found: ' + fullPath);
+        throw new gUtil.PluginError('gulp-html-to-json', 'File not found: ' + fullPath);
     }
 
 }
 
-function indName (dirname) {
+/**
+ *
+ * @param dirname
+ * @param p
+ * @return {*}
+ */
+function indName (dirname, p) {
+
+    if (typeof p.filename !== 'undefined') {
+
+        return p.filename;
+    }
 
     var n = dirname.split('.');
+
     n.pop();
-    nLast = n.pop();
-    var nArr = []
+
+    var nLast = n.pop(), nArr = [];
+
     if (nLast.indexOf('/') >= 0) {
+
         nArr = nLast.split('/')
     } else {
+
         nArr = nLast.split('\\')
     }
 
     return nArr.pop();
 }
 
+/**
+ *
+ * @param path
+ * @param fname
+ * @param useAsVariable
+ * @returns {*}
+ */
 function replaceFilename (path, fname, useAsVariable) {
 
     var uvar = useAsVariable || false;
@@ -47,11 +77,19 @@ function replaceFilename (path, fname, useAsVariable) {
     var filename = path.replace(/^.*(\\|\/|\:)/, '');
     var nFname = path.replace(filename, fname);
     var ext = (uvar) ? ".js" : '.json';
-    return gutil.replaceExtension(nFname,  ext);
+    return gUtil.replaceExtension(nFname,  ext);
 }
 
+/**
+ * Control HTML to JSON
+ * @param fileContents
+ * @param filePath
+ * @param output
+ * @param p
+ */
+function htmlToJsonController (fileContents, filePath, output, p) {
 
-function htmltojsonController (fileContents, filePath, output, p) {
+    var matches;
 
     while (matches = _DIRECTIVE_REGEX.exec(fileContents)) {
         var relPath     = path.dirname(filePath),
@@ -72,12 +110,12 @@ function htmltojsonController (fileContents, filePath, output, p) {
 
             var files = glob.sync(fullPath, {mark:true});
 
-            files.forEach(function(value, index){
+            files.forEach(function(value){
 
                 var _inc = _parse(value);
 
                 if (_inc.length > 0) {
-                    var ind = (jsonVar.trim() == '*') ? indName(value) : jsonVar
+                    var ind = (jsonVar.trim() == '*') ? indName(value) : jsonVar;
                     output[ind] = _inc;
                 }
             })
@@ -89,15 +127,24 @@ function htmltojsonController (fileContents, filePath, output, p) {
     }
 }
 
+/**
+ * Make Angular Template
+ * @param params
+ * @param json
+ * @returns {string}
+ */
 function angularTemplate (params, json) {
+
     var prefix = (params.prefix != "") ? params.prefix + "." : "";
+
     var tpl = 'angular.module("'+ prefix +  params.filename +'",["ng"]).run(["$templateCache",';
+
     tpl += 'function($templateCache) {';
 
     for (var key in json) {
         if (json.hasOwnProperty(key)) {
             tpl += '$templateCache.put("'+ key +'",';
-            tpl += JSON.stringify(json[key])
+            tpl += JSON.stringify(json[key]);
             tpl += ');'
         }
     }
@@ -107,39 +154,45 @@ function angularTemplate (params, json) {
     return tpl;
 }
 
-
+/**
+ * Module Exports htmlToJson
+ * @param params
+ * @returns {*}
+ */
 module.exports = function(params) {
-    var params = params || {};
-    function htmtojson(file, callback) {
+
+    params = params || {};
+
+    function htmToJson(file, callback) {
 
         if (file.isNull()) {
             return callback(null, file);
         }
 
         if (file.isStream()) {
-            throw new gutil.PluginError('gulp-html-to-json', 'stream not supported');
+            throw new gUtil.PluginError('gulp-html-to-json', 'stream not supported');
         }
 
         if (file.isBuffer()) {
 
             var outputJson = {};
 
-            htmltojsonController(String(file.contents), file.path, outputJson, params);
+            htmlToJsonController(String(file.contents), file.path, outputJson, params);
 
-            params.filename = indName(file.path);
+            params.filename = indName(file.path, params);
             params.prefix || (params.prefix = "");
             params.useAsVariable || (params.useAsVariable = false);
             params.isAngularTemplate || (params.isAngularTemplate = false);
 
             if(params.isAngularTemplate) {
                 var output = angularTemplate(params, outputJson);
-                file.path = replaceFilename(file.path, params.filename, params.useAsVariable)
+                file.path = replaceFilename(file.path, params.filename, params.useAsVariable);
                 file.contents = new Buffer(output);
 
             } else {
-                file.path = replaceFilename(file.path, params.filename, params.useAsVariable)
+                file.path = replaceFilename(file.path, params.filename, params.useAsVariable);
 
-                var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : ""
+                var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : "";
                 file.contents = new Buffer(exVars + JSON.stringify(outputJson));
             }
         }
@@ -147,5 +200,5 @@ module.exports = function(params) {
         callback(null, file);
     }
 
-    return es.map(htmtojson)
-}
+    return es.map(htmToJson)
+};
