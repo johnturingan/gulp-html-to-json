@@ -55,6 +55,7 @@ As of now, there are two options that you can use:
 
 * `filename` (optional)
     * filename of the json file
+    * should use only if you have 1 group template.
 * `useAsVariable` (optional)
     * default false
     * If set to true, it will output your file as a javascript variable. Otherwise, json file

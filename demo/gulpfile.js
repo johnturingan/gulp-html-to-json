@@ -2,6 +2,8 @@
  * Created by isda on 16/09/2016.
  */
 
+'use strict';
+
 var gulp = require('gulp');
 var g = require('gulp-load-plugins')();
 var htmlToJson = require('../index.js');
@@ -55,6 +57,7 @@ gulp.task('compileC', function () {
             useAsVariable: true
             , isAngularTemplate : true
             , prefix : "YourPreferredPrefix"
+            , filename: 'test'
         }))
         .pipe(gulp.dest('./output'))
         .on('error', g.util.log)
@@ -72,6 +75,24 @@ gulp.task('compileD', function () {
             filename : 'MyCustomFileName'
             , useAsVariable: false
             , isAngularTemplate : false
+            , prefix : "YourPreferredPrefix"
+        }))
+        .pipe(gulp.dest('./output'))
+        .on('error', g.util.log)
+        ;
+});
+
+/**
+ * FOR ANGULAR JS SUPPORT
+ * Template Group filename would be the default filename
+ * @return JS File
+ */
+gulp.task('compileE', function () {
+
+    return gulp.src('./templateGroup/**/*.tpl')
+        .pipe(htmlToJson({
+            useAsVariable: false
+            , isAngularTemplate : true
             , prefix : "YourPreferredPrefix"
         }))
         .pipe(gulp.dest('./output'))

@@ -33,6 +33,33 @@ function _parse(file){
 
 }
 
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function isEmpty(obj) {
+
+    // null and undefined are "empty"
+    if (obj == null) return true;
+
+    // Assume if it has a length property with a non-zero value
+    // that that property is correct.
+    if (obj.length > 0)    return false;
+    if (obj.length === 0)  return true;
+
+    // If it isn't an object at this point
+    // it is empty, but it can't be anything *but* empty
+    // Is it empty?  Depends on your application.
+    if (typeof obj !== "object") return true;
+
+    // Otherwise, does it have any properties of its own?
+    // Note that this doesn't handle
+    // toString and valueOf enumeration bugs in IE < 9
+    for (var key in obj) {
+        if (hasOwnProperty.call(obj, key)) return false;
+    }
+
+    return true;
+}
+
 /**
  *
  * @param dirname
@@ -41,7 +68,7 @@ function _parse(file){
  */
 function indName (dirname, p) {
 
-    if (typeof p.filename !== 'undefined') {
+    if (!isEmpty(p) && !isEmpty(p.filename)) {
 
         return p.filename;
     }
@@ -55,6 +82,7 @@ function indName (dirname, p) {
     if (nLast.indexOf('/') >= 0) {
 
         nArr = nLast.split('/')
+
     } else {
 
         nArr = nLast.split('\\')
@@ -115,6 +143,7 @@ function htmlToJsonController (fileContents, filePath, output, p) {
                 var _inc = _parse(value);
 
                 if (_inc.length > 0) {
+
                     var ind = (jsonVar.trim() == '*') ? indName(value) : jsonVar;
                     output[ind] = _inc;
                 }
@@ -129,15 +158,14 @@ function htmlToJsonController (fileContents, filePath, output, p) {
 
 /**
  * Make Angular Template
- * @param params
+ * @param p
  * @param json
  * @returns {string}
  */
-function angularTemplate (params, json) {
+function angularTemplate (p, json) {
 
-    var prefix = (params.prefix != "") ? params.prefix + "." : "";
-
-    var tpl = 'angular.module("'+ prefix +  params.filename +'",["ng"]).run(["$templateCache",';
+    var prefix = (p.prefix != "") ? p.prefix + "." : "",
+        tpl = 'angular.module("'+ prefix +  p.filename +'",["ng"]).run(["$templateCache",';
 
     tpl += 'function($templateCache) {';
 
@@ -156,17 +184,23 @@ function angularTemplate (params, json) {
 
 /**
  * Module Exports htmlToJson
- * @param params
+ * @param p
  * @returns {*}
  */
-module.exports = function(params) {
+module.exports = function(p) {
 
-    params = params || {};
+    var sr = false;
+
+    p = p || {};
+
+    if (isEmpty(p.filename)) {
+        sr = true;
+    }
 
     function htmToJson(file, callback) {
 
         if (file.isNull()) {
-            return callback(null, file);
+            throw new gUtil.PluginError('gulp-html-to-json', 'File is Null');
         }
 
         if (file.isStream()) {
@@ -177,24 +211,28 @@ module.exports = function(params) {
 
             var outputJson = {};
 
-            htmlToJsonController(String(file.contents), file.path, outputJson, params);
+            htmlToJsonController(String(file.contents), file.path, outputJson, p);
 
-            params.filename = indName(file.path, params);
-            params.prefix || (params.prefix = "");
-            params.useAsVariable || (params.useAsVariable = false);
-            params.isAngularTemplate || (params.isAngularTemplate = false);
+            p.filename = indName(file.path, p);
+            p.prefix || (p.prefix = "");
+            p.useAsVariable || (p.useAsVariable = false);
+            p.isAngularTemplate || (p.isAngularTemplate = false);
 
-            if(params.isAngularTemplate) {
-                var output = angularTemplate(params, outputJson);
-                file.path = replaceFilename(file.path, params.filename, params.useAsVariable);
+            if(p.isAngularTemplate) {
+                var output = angularTemplate(p, outputJson);
+                file.path = replaceFilename(file.path, p.filename, p.useAsVariable);
                 file.contents = new Buffer(output);
 
             } else {
-                file.path = replaceFilename(file.path, params.filename, params.useAsVariable);
+                file.path = replaceFilename(file.path, p.filename, p.useAsVariable);
 
-                var exVars = (params.useAsVariable) ? "var " + params.filename + "=" : "";
+                var exVars = (p.useAsVariable) ? "var " + p.filename + "=" : "";
                 file.contents = new Buffer(exVars + JSON.stringify(outputJson));
             }
+        }
+
+        if (sr) {
+            delete  p['filename'];
         }
 
         callback(null, file);
