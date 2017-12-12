@@ -118,27 +118,52 @@ function replaceFilename (path, fname, useAsVariable) {
 function htmlToJsonController (fileContents, filePath, output, p) {
 
     var matches;
+    var includePaths = false;
 
     while (matches = _DIRECTIVE_REGEX.exec(fileContents)) {
+
         var relPath     = path.dirname(filePath),
             fullPath    = path.join(relPath,  matches[3].replace(/['"]/g, '')).trim(),
             jsonVar     = matches[2],
             extension   = matches[3].split('.').pop();
 
-        try {
+        var fileMatches = [];
 
-            if (typeof p.baseDir != 'undefined' || typeof p.overrideDir != 'undefined') {
+        if (p.includePaths) {
 
-                var flPath = fullPath.replace(p.baseDir, p.overrideDir);
-
-                if (fs.existsSync(flPath)) {
-                    fullPath = flPath;
-                }
+            if (typeof p.includePaths == "string") {
+                // Arrayify the string
+                includePaths = [params.includePaths];
+            }else if (Array.isArray(p.includePaths)) {
+                // Set this array to the includepaths
+                includePaths = p.includePaths;
             }
 
-            var files = glob.sync(fullPath, {mark:true});
+            var includePath = '';
 
-            files.forEach(function(value){
+            for (var y = 0; y < includePaths.length; y++) {
+
+                includePath = path.join(includePaths[y], matches[3].replace(/['"]/g, '')).trim();
+
+                if (fs.existsSync(includePath)) {
+
+                    var globResults = glob.sync(includePath, {mark: true});
+                    fileMatches = fileMatches.concat(globResults);
+
+                }
+
+            }
+
+        } else {
+
+            var globResults = glob.sync(fullPath, {mark: true});
+            fileMatches = fileMatches.concat(globResults);
+
+        }
+
+        try {
+
+            fileMatches.forEach(function(value){
 
                 var _inc = _parse(value);
 

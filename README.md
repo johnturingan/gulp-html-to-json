@@ -43,6 +43,7 @@ gulp.task('markdown', function(){
                 , useAsVariable: true
                 , isAngularTemplate : true
                 , prefix : "yourprefix"
+                , includePaths: ['base/path']
             }))
             .pipe(gulp.dest('.'))
 
@@ -65,11 +66,10 @@ As of now, there are two options that you can use:
 * `prefix` (optional)
     * set the prefix on your angular module name
 
-* `baseDir` (optional)
-    * Base directory Name of the template
+* `includePath` (optional)
+    * Takes a String or an Array of paths.
+    * If set, gulp-html-to-json will use these folders as base path when searching for files.
 
-* `overrideDir` (optional)
-    * Override Directory of the template
 
 
 Sample outpus if useAsVariable = false;
@@ -166,24 +166,6 @@ Third sample will look into all html content inside the directory and output it 
 ```
 
 
-In some cases you may want to override the template. You have a default template, but you want to override it by another template. You may use `baseDir` and `overrideDir` option. Just note that directory structure and filename are the same. Example:
-
-```
-BaseDir Directory structure
-
-Base
-    template
-        home.html
-
-
-OverrideDir Directory Structure
-
-Overrides
-    template
-        home.html
-```
-
-As you can see above, they have same directory structure inside the declared base and override directory. And the filename are the same. How it works? The script will check if the file exist in override directory then it will use that instead of that in the base directory.
 
 
 ----
