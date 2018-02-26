@@ -5,8 +5,8 @@
 'use strict';
 
 var gulp = require('gulp');
-var g = require('gulp-load-plugins')();
 var htmlToJson = require('../index.js');
+var log = require('fancy-log');
 
 /**
  * COMPILE AS JSON
@@ -22,7 +22,6 @@ gulp.task('compileA', function () {
             , prefix : "YourPreferredPrefix"
         }))
         .pipe(gulp.dest('./output'))
-        .on('error', g.util.log)
         ;
 });
 
@@ -40,7 +39,7 @@ gulp.task('compileB', function () {
             , prefix : "YourPreferredPrefix"
         }))
         .pipe(gulp.dest('./output'))
-        .on('error', g.util.log)
+        .on('error', log)
         ;
 });
 
@@ -60,7 +59,7 @@ gulp.task('compileC', function () {
             , filename: 'test'
         }))
         .pipe(gulp.dest('./output'))
-        .on('error', g.util.log)
+        .on('error', log)
         ;
 });
 
@@ -78,7 +77,7 @@ gulp.task('compileD', function () {
             , prefix : "YourPreferredPrefix"
         }))
         .pipe(gulp.dest('./output'))
-        .on('error', g.util.log)
+        .on('error', log)
         ;
 });
 
@@ -96,6 +95,6 @@ gulp.task('compileE', function () {
             , prefix : "YourPreferredPrefix"
         }))
         .pipe(gulp.dest('./output'))
-        .on('error', g.util.log)
+        .on('error', log)
         ;
 });

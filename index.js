@@ -4,13 +4,12 @@
 var fs      = require("fs"),
     path    = require("path"),
     es      = require("event-stream"),
-    gUtil   = require("gulp-util"),
-    marked  = require('marked'),
+    plugError = require('plugin-error'),
+    replaceExt = require('replace-ext'),
     glob    = require('glob'),
     frontMatter = require('front-matter'),
 
-    _DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\*\/-]+\.html?\s*))$/gm,
-    _IS_HIDDEN_REGEX = /(^|.\/)\.+[^\/\.]/g
+    _DIRECTIVE_REGEX = /^(.*=\s*([\w\.\*\/-]+)\s*:\s*([\w\.\*\/-]+\.html?\s*))$/gm
 ;
 
 /**
@@ -28,7 +27,7 @@ function _parse(file){
         return parsed.body;
 
     } else {
-        throw new gUtil.PluginError('gulp-html-to-json', 'File not found: ' + fullPath);
+        throw new plugError('gulp-html-to-json', 'File not found: ' + fullPath);
     }
 
 }
@@ -38,7 +37,7 @@ var hasOwnProperty = Object.prototype.hasOwnProperty;
 function isEmpty(obj) {
 
     // null and undefined are "empty"
-    if (obj == null) return true;
+    if (obj === null || typeof obj === 'undefined') return true;
 
     // Assume if it has a length property with a non-zero value
     // that that property is correct.
@@ -105,7 +104,7 @@ function replaceFilename (path, fname, useAsVariable) {
     var filename = path.replace(/^.*(\\|\/|\:)/, '');
     var nFname = path.replace(filename, fname);
     var ext = (uvar) ? ".js" : '.json';
-    return gUtil.replaceExtension(nFname,  ext);
+    return replaceExt(nFname,  ext);
 }
 
 /**
@@ -189,7 +188,7 @@ function htmlToJsonController (fileContents, filePath, output, p) {
  */
 function angularTemplate (p, json) {
 
-    var prefix = (p.prefix != "") ? p.prefix + "." : "",
+    var prefix = (p.prefix !== "") ? p.prefix + "." : "",
         tpl = 'angular.module("'+ prefix +  p.filename +'",["ng"]).run(["$templateCache",';
 
     tpl += 'function($templateCache) {';
@@ -225,11 +224,11 @@ module.exports = function(p) {
     function htmToJson(file, callback) {
 
         if (file.isNull()) {
-            throw new gUtil.PluginError('gulp-html-to-json', 'File is Null');
+            throw new plugError('gulp-html-to-json', 'File is Null');
         }
 
         if (file.isStream()) {
-            throw new gUtil.PluginError('gulp-html-to-json', 'stream not supported');
+            throw new plugError('gulp-html-to-json', 'stream not supported');
         }
 
         if (file.isBuffer()) {
