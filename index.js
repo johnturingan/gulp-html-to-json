@@ -251,7 +251,8 @@ module.exports = function(p) {
                 file.path = replaceFilename(file.path, p.filename, p.useAsVariable);
 
                 var exVars = (p.useAsVariable) ? "var " + p.filename + "=" : "";
-                file.contents = new Buffer(exVars + JSON.stringify(outputJson));
+                var fileContents = exVars + JSON.stringify(outputJson) + (p.useAsVariable ? ";" : "");
+                file.contents = new Buffer(fileContents);
             }
         }
 
